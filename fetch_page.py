@@ -26,6 +26,7 @@ def main():
                     g['amount'] = amount
                 g['area'] = area
                 grants.append(g)
+    print("area\trecipient\tyear\tamount")
     for g in sorted(grants,
             key=operator.itemgetter("area", "recipient", "year", "amount")):
         line = "\t".join([
