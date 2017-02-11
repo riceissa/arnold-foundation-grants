@@ -20,6 +20,4 @@ for year in years:
     print('| {} || {:,d} || {} || {}'.format(year, amt, rs, percentage_round(p)))
 print('|-')
 print("! Total amount granted || {:,d} || || 100%".format(total))
-
-# print(df.groupby('year')['amount'].sum())
 print('|}')

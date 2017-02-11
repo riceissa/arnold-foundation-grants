@@ -20,6 +20,4 @@ for area in areas:
     print('| {} || {:,d} || {} || {}'.format(area, amt, rs, percentage_round(p)))
 print('|-')
 print("! Total amount granted || {:,d} || || 100%".format(total))
-
-# print(df.groupby('year')['amount'].sum())
 print('|}')
