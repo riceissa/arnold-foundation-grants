@@ -7,9 +7,10 @@ def main():
         soup = BeautifulSoup(f, "html.parser")
     grants = []
     # Collect the grant areas to match up with the tables
-    areas = (area for area in soup.find_all("h4", class_="grant"))
+    areas = (area.string for area in soup.find_all("h4", class_="grant"))
     for table in soup.find_all("table"):
-        for row in first.find_all("tr"):
+        area = next(areas)
+        for row in table.find_all("tr"):
             g = {}
             recipient = row.find("td", class_="recipient")
             if recipient:
