@@ -18,7 +18,8 @@ def main():
                 g['recipient'] = recipient.string
                 # We'll just get the starting year
                 g['year'] = row.find("td", class_="term").string.split()[0]
-                amount = row.find("td", class_="amount").string.replace(',', '').replace('$', '')
+                amount = row.find("td", class_="amount").string \
+                        .replace(',', '').replace('$', '')
                 if amount.startswith("up to "):
                     g['amount'] = amount[len("up to "):]
                 else:
