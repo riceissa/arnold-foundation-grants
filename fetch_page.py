@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from bs4 import BeautifulSoup
+import operator
 
 def main():
     with open("index.html", "r") as f:
@@ -23,7 +24,16 @@ def main():
                 else:
                     g['amount'] = amount
                 g['area'] = area
-                print(g)
+                grants.append(g)
+    for g in sorted(grants,
+            key=operator.itemgetter("area", "recipient", "year", "amount")):
+        line = "\t".join([
+            g['area'],
+            g['recipient'],
+            g['year'],
+            g['amount'],
+        ])
+        print(line)
 
 if __name__ == "__main__":
     main()
