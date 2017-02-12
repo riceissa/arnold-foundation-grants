@@ -16,7 +16,7 @@ print("|-")
 print("!")
 print('! colspan="{}" | Grant amount'.format(len(years) + 1))
 print('|-')
-print('! Focus areas !! ' + '!!'.join(str(y) for y in years))
+print('! Focus areas !! ' + '!!'.join(str(y) for y in years) + '!! Sum')
 for area in areas:
     print('|-')
     print('| {}'.format(area))
@@ -25,5 +25,14 @@ for area in areas:
             amount = group[area][year]
         else:
             amount = 0
-        print('| style="text-align:right;" | {}'.format(amount))
+        print('| style="text-align:right;" | {:,d}'.format(amount))
+    area_sums = df.groupby('area').amount.sum()
+    print('| style="text-align:right;" | {:,d}'.format(area_sums[area]))
+
+year_sums = df.groupby('year').amount.sum()
+print('|-')
+print('! Total')
+for y in years:
+    print('! style="text-align:right;" | {:,d}'.format(year_sums[y]))
+print('! style="text-align:right;" | {:,d}'.format(year_sums.sum()))
 print('|}')
