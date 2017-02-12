@@ -31,7 +31,7 @@ for area in areas:
         )
     else:
         print('| {}'.format(", ".join(wikilink(x) for x in rs)))
-    print('| {}'.format(percentage_round(p)))
+    print('| style="text-align: right;" | {}'.format(percentage_round(p)))
 print('|-')
 print("! Total amount granted")
 print('! style="text-align: right;" | {:,d}'.format(total))
