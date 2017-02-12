@@ -20,7 +20,7 @@ for year in years:
     amt = df.groupby('year')['amount'].sum()[year]
     p = amt / total * 100
     print('| {}'.format(year))
-    print('| {:,d}'.format(amt))
+    print('| style="text-align: right;" | {:,d}'.format(amt))
     if len(rs) > 10:
         top = rs[:num_outside_collapse]
         rest = rs[num_outside_collapse:]
@@ -31,7 +31,10 @@ for year in years:
         )
     else:
         print('| {}'.format(", ".join(wikilink(x) for x in rs)))
-    print('| {}'.format(percentage_round(p)))
+    print('| style="text-align: right;" | {}'.format(percentage_round(p)))
 print('|-')
-print("! Total amount granted || {:,d} || || 100%".format(total))
+print("! Total amount granted")
+print('! style="text-align: right;" | {:,d}'.format(total))
+print("!")
+print('! style="text-align: right;" | 100.0')
 print('|}')
