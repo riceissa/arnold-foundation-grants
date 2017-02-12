@@ -15,7 +15,8 @@ print('{| class="sortable wikitable"')
 print('! Year !! Amount !! Recipients !! Percentage of total amount')
 for year in years:
     print('|-')
-    rs = df[df.year == year].sort_values(by='amount').recipient.unique().tolist()
+    rs = df[df.year == year].groupby('recipient').sum().sort_values(by='amount',
+            ascending=False).index
     amt = df.groupby('year')['amount'].sum()[year]
     p = amt / total * 100
     print('| {}'.format(year))
