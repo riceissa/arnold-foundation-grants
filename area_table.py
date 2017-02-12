@@ -24,10 +24,10 @@ for area in areas:
     if len(rs) > 10:
         top = rs[:num_outside_collapse]
         rest = rs[num_outside_collapse:]
-        print('| {}'.format(", ".join(wikilink(x) for x in top))
-                + "{{collapse|"
-                + ", ".join(wikilink(x) for x in rest)
-                + "|More recipients}}"
+        print('| {}\n'.format(", ".join(wikilink(x) for x in top))
+                + "{{collapse top|title=More recipients}}\n"
+                + ", ".join(wikilink(x) for x in rest) + "\n"
+                + "{{collapse bottom}}"
         )
     else:
         print('| {}'.format(", ".join(wikilink(x) for x in rs)))
