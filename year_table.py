@@ -18,7 +18,7 @@ for year in years:
     rs = df[df.year == year].sort_values(by='amount').recipient.unique().tolist()
     amt = df.groupby('year')['amount'].sum()[year]
     p = amt / total * 100
-    print('| {} '.format(year))
+    print('| {}'.format(year))
     print('| {:,d}'.format(amt))
     if len(rs) > 10:
         top = rs[:num_outside_collapse]
