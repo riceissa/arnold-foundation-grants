@@ -15,7 +15,8 @@ print('{| class="sortable wikitable"')
 print('! Focus area !! Amount !! Recipients !! Percentage of total amount')
 for area in areas:
     print('|-')
-    rs = df[df.area == area].sort_values(by='amount').recipient.unique().tolist()
+    rs = df[df.area == area].groupby('recipient').sum().sort_values(by='amount',
+            ascending=False).index
     amt = df.groupby('area')['amount'].sum()[area]
     p = amt / total * 100
     print('| {}'.format(area))
