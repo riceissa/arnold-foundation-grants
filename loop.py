@@ -47,12 +47,13 @@ def donor_cause_area_url(area):
 
 with open("grants.tsv", "r") as f:
     for line in f:
-        area, recipient, year, amount = line.strip().split("\t")
+        area, recipient, year, amount, donation_date_precision = line.strip().split("\t")
 
-        print("""    ('Laura and John Arnold Foundation','{donee}',{amount},'{donation_date}-01-01','year','donation log','{cause_area}','http://www.arnoldfoundation.org/grants/',{donor_cause_area_url},'United States',{affected_states}),""".format(
+        print("""    ('Laura and John Arnold Foundation','{donee}',{amount},'{donation_date}-01-01','{donation_date_precision}','donation log','{cause_area}','http://www.arnoldfoundation.org/grants/',{donor_cause_area_url},'Grant period: 2014-2017','United States',{affected_states}),""".format(
                 donee=recipient,
                 amount=amount,
                 donation_date=year,
+                donation_date_precision=donation_date_precision,
                 cause_area=area,
                 donor_cause_area_url=donor_cause_area_url(area),
                 affected_states=assign_state(recipient)
