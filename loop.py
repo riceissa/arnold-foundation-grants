@@ -50,7 +50,7 @@ print("""insert into donations (donor, donee, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
     donor_cause_area_url, notes, affected_countries, affected_states) values""")
 
-with open("grants.tsv", "r") as f:
+with open("grants-with-multiyear.tsv", "r") as f:
     for line in f:
         area, recipient, year, amount, donation_date_precision, notes = line.strip().split("\t")
 
