@@ -1,4 +1,5 @@
-# Quick hack to make the SQL insert
+# Quick hack to make the SQL insert for use in
+# https://github.com/vipulnaik/donations/blob/master/sql/donations.sql
 
 def assign_state(recipient):
     """
