@@ -48,7 +48,7 @@ def donor_cause_area_url(area):
 
 print("""insert into donations (donor, donee, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
-    donor_cause_area_url, notes, affected_countries, affected_states) values"""
+    donor_cause_area_url, notes, affected_countries, affected_states) values""")
 
 with open("grants.tsv", "r") as f:
     for line in f:
