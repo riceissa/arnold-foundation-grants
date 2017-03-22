@@ -1,3 +1,5 @@
+# Quick hack to make the SQL insert
+
 def assign_state(recipient):
     """
     Try to assign a state to the recipient. If not possible, return "NULL".
