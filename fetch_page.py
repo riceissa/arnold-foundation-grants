@@ -3,6 +3,8 @@
 from bs4 import BeautifulSoup
 import operator
 
+TRACK_MULTIYEAR = True
+
 def main():
     with open("index.html", "r") as f:
         soup = BeautifulSoup(f, "html.parser")
@@ -16,8 +18,16 @@ def main():
             recipient = row.find("td", class_="recipient")
             if recipient:
                 g['recipient'] = recipient.string
-                # We'll just get the starting year
-                g['year'] = row.find("td", class_="term").string.split()[0]
+                year_raw = row.find("td", class_="term").string
+                if TRACK_MULTIYEAR:
+                    if "-" in year_raw:
+                        # Presence of hyphen indicates the grant spans multiple
+                        # years
+                        g['multiyear'] = "multi-year"
+                    else:
+                        g['multiyear'] = "year"
+                # We'll just use the starting year for the "year" column
+                g['year'] = year_raw.split()[0]
                 amount = row.find("td", class_="amount").string \
                         .replace(',', '').replace('$', '')
                 if amount.startswith("up to "):
@@ -27,15 +37,27 @@ def main():
                 g['area'] = area
                 grants.append(g)
     print("area\trecipient\tyear\tamount")
-    for g in sorted(grants,
-            key=operator.itemgetter("area", "recipient", "year", "amount")):
-        line = "\t".join([
-            g['area'],
-            g['recipient'],
-            g['year'],
-            g['amount'],
-        ])
-        print(line)
+    if TRACK_MULTIYEAR:
+        for g in sorted(grants,
+                key=operator.itemgetter("area", "recipient", "year", "amount", "multiyear")):
+            line = "\t".join([
+                g['area'],
+                g['recipient'],
+                g['year'],
+                g['amount'],
+                g['multiyear'],
+            ])
+            print(line)
+    else:
+        for g in sorted(grants,
+                key=operator.itemgetter("area", "recipient", "year", "amount")):
+            line = "\t".join([
+                g['area'],
+                g['recipient'],
+                g['year'],
+                g['amount'],
+            ])
+            print(line)
 
 if __name__ == "__main__":
     main()
