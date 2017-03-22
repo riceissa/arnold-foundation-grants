@@ -26,6 +26,7 @@ def main():
                         g['multiyear'] = "multi-year"
                     else:
                         g['multiyear'] = "year"
+                    g['notes'] = 'Grant period: ' + year_raw.strip()
                 # We'll just use the starting year for the "year" column
                 g['year'] = year_raw.split()[0]
                 amount = row.find("td", class_="amount").string \
@@ -39,13 +40,14 @@ def main():
     print("area\trecipient\tyear\tamount")
     if TRACK_MULTIYEAR:
         for g in sorted(grants,
-                key=operator.itemgetter("area", "recipient", "year", "amount", "multiyear")):
+                key=operator.itemgetter("area", "recipient", "year", "amount", "multiyear", "notes")):
             line = "\t".join([
                 g['area'],
                 g['recipient'],
                 g['year'],
                 g['amount'],
                 g['multiyear'],
+                g['notes']
             ])
             print(line)
     else:
