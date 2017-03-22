@@ -49,7 +49,7 @@ with open("grants.tsv", "r") as f:
     for line in f:
         area, recipient, year, amount = line.strip().split("\t")
 
-        print("""    ('Laura and John Arnold Foundation', '{donee}', {amount}, '{donation_date}-01-01', 'year', 'donation log', {cause_area}, 'http://www.arnoldfoundation.org/grants/', {donor_cause_area_url}, 'United States', {affected_states}),""".format(
+        print("""    ('Laura and John Arnold Foundation','{donee}',{amount},'{donation_date}-01-01','year','donation log',{cause_area},'http://www.arnoldfoundation.org/grants/',{donor_cause_area_url},'United States',{affected_states}),""".format(
                 donee=recipient,
                 amount=amount,
                 donation_date=year,
