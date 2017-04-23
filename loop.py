@@ -1,6 +1,10 @@
 # Quick hack to make the SQL insert for use in
 # https://github.com/vipulnaik/donations/blob/master/sql/donations.sql
 
+DONEE_RENAME = {
+    "Research Triangle Institute" : "RTI International"
+}
+
 def assign_state(recipient):
     """
     Try to assign a state to the recipient. If not possible, return "NULL".
@@ -53,7 +57,8 @@ print("""insert into donations (donor, donee, amount, donation_date,
 with open("grants-with-multiyear.tsv", "r") as f:
     for line in f:
         area, recipient, year, amount, donation_date_precision, notes = line.strip().split("\t")
-
+        if recipient in DONEE_RENAME:
+            recipient = DONEE_RENAME[recipient]
         print("""    ('Laura and John Arnold Foundation','{donee}',{amount},'{donation_date}-01-01','{donation_date_precision}','donation log','{cause_area}','http://www.arnoldfoundation.org/grants/',{donor_cause_area_url},'{notes}','United States',{affected_states}),""".format(
                 donee=recipient,
                 amount=amount,
