@@ -37,8 +37,8 @@ def main():
                     g['amount'] = amount
                 g['area'] = area
                 grants.append(g)
-    print("area\trecipient\tyear\tamount")
     if TRACK_MULTIYEAR:
+        print("area\trecipient\tyear\tamount\tmultiyear\tnotes")
         for g in sorted(grants,
                 key=operator.itemgetter("area", "recipient", "year", "amount", "multiyear", "notes")):
             line = "\t".join([
@@ -51,6 +51,7 @@ def main():
             ])
             print(line)
     else:
+        print("area\trecipient\tyear\tamount")
         for g in sorted(grants,
                 key=operator.itemgetter("area", "recipient", "year", "amount")):
             line = "\t".join([

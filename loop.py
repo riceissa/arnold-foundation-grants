@@ -55,11 +55,16 @@ print("""insert into donations (donor, donee, amount, donation_date,
     donor_cause_area_url, notes, affected_countries, affected_states) values""")
 
 with open("grants-with-multiyear.tsv", "r") as f:
+    continuing = False
     for line in f:
+        if continuing == True:
+            print(",")
+        else:
+            continuing = True
         area, recipient, year, amount, donation_date_precision, notes = line.strip().split("\t")
         if recipient in DONEE_RENAME:
             recipient = DONEE_RENAME[recipient]
-        print("""    ('Laura and John Arnold Foundation','{donee}',{amount},'{donation_date}-01-01','{donation_date_precision}','donation log','{cause_area}','http://www.arnoldfoundation.org/grants/',{donor_cause_area_url},'{notes}','United States',{affected_states}),""".format(
+        print("""    ("Laura and John Arnold Foundation","{donee}",{amount},"{donation_date}-01-01","{donation_date_precision}","donation log","{cause_area}","http://www.arnoldfoundation.org/grants/",{donor_cause_area_url},"{notes}","United States",{affected_states})""".format(
                 donee=recipient,
                 amount=amount,
                 donation_date=year,
@@ -68,4 +73,5 @@ with open("grants-with-multiyear.tsv", "r") as f:
                 donor_cause_area_url=donor_cause_area_url(area),
                 notes=notes,
                 affected_states=assign_state(recipient)
-            ))
+            ), end='')
+    print(";")
