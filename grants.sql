@@ -1,7 +1,6 @@
 insert into donations (donor, donee, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
     donor_cause_area_url, notes, affected_countries, affected_states) values
-    ("Laura and John Arnold Foundation","recipient",amount,"year-01-01","multiyear","donation log","area","http://www.arnoldfoundation.org/grants/",NULL,"notes","United States",NULL),
     ("Laura and John Arnold Foundation","Administrative Office of the Courts of the State of Kentucky – Division of Pretrial Services",171003,"2012-01-01","year","donation log","Criminal Justice","http://www.arnoldfoundation.org/grants/",'http://www.arnoldfoundation.org/initiative/criminal-justice/',"Grant period: 2012","United States",'Kentucky'),
     ("Laura and John Arnold Foundation","Administrative Office of the Courts of the State of Kentucky – Division of Pretrial Services",25434,"2013-01-01","multi-year","donation log","Criminal Justice","http://www.arnoldfoundation.org/grants/",'http://www.arnoldfoundation.org/initiative/criminal-justice/',"Grant period: 2013 - 2015","United States",'Kentucky'),
     ("Laura and John Arnold Foundation","Aleph Institute",50000,"2016-01-01","year","donation log","Criminal Justice","http://www.arnoldfoundation.org/grants/",'http://www.arnoldfoundation.org/initiative/criminal-justice/',"Grant period: 2016","United States",NULL),
