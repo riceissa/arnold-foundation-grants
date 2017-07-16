@@ -6,7 +6,7 @@ python3.5 fetch_page.py > grants-with-multiyear.tsv
 python3.5 loop.py > grants.sql
 ```
 
-The following commands are to insert into donations list website and git repository:
+The following commands are to insert into [donations list website](https://github.com/vipulnaik/donations) and git repository:
 
 ```bash
 mysql donations -p < grants.sql # Enter password on being prompted
