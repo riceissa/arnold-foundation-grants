@@ -1,5 +1,10 @@
+#!/usr/bin/env python3
+
 # Quick hack to make the SQL insert for use in
 # https://github.com/vipulnaik/donations/blob/master/sql/donations.sql
+
+import re
+
 
 DONEE_RENAME = {
     "Research Triangle Institute" : "RTI International"
@@ -50,6 +55,9 @@ def donor_cause_area_url(area):
     else:
         return "NULL"
 
+def donee_clean(donee):
+    return donee
+
 print("""insert into donations (donor, donee, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
     donor_cause_area_url, notes, affected_countries, affected_states) values""")
@@ -69,7 +77,7 @@ with open("grants-with-multiyear.tsv", "r") as f:
             if recipient in DONEE_RENAME:
                 recipient = DONEE_RENAME[recipient]
             print("""    ("Laura and John Arnold Foundation","{donee}",{amount},"{donation_date}-01-01","{donation_date_precision}","donation log","{cause_area}","http://www.arnoldfoundation.org/grants/",{donor_cause_area_url},"{notes}","United States",{affected_states})""".format(
-                donee=recipient,
+                donee=donee_clean(recipient),
                 amount=amount,
                 donation_date=year,
                 donation_date_precision=donation_date_precision,
