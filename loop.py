@@ -56,6 +56,7 @@ def donor_cause_area_url(area):
         return "NULL"
 
 def donee_clean(donee):
+    donee = re.sub(r",? inc\.?$", "", donee, flags=re.IGNORECASE)
     return donee
 
 print("""insert into donations (donor, donee, amount, donation_date,
