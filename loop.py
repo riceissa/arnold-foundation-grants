@@ -7,8 +7,9 @@ import re
 
 
 DONEE_RENAME = {
-    "Research Triangle Institute" : "RTI International"
+    "Research Triangle Institute": "RTI International"
 }
+
 
 def assign_state(recipient):
     """
@@ -39,6 +40,7 @@ def assign_state(recipient):
             return "'" + s + "'"
     return "NULL"
 
+
 def donor_cause_area_url(area):
     if area == "Criminal Justice":
         return "'http://www.arnoldfoundation.org/initiative/criminal-justice/'"
@@ -55,9 +57,11 @@ def donor_cause_area_url(area):
     else:
         return "NULL"
 
+
 def donee_clean(donee):
     donee = re.sub(r",? inc\.?$", "", donee, flags=re.IGNORECASE)
     return donee
+
 
 print("""insert into donations (donor, donee, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
@@ -67,10 +71,10 @@ with open("grants-with-multiyear.tsv", "r") as f:
     headerLine = True
     continuing = False
     for line in f:
-        if headerLine == True:
+        if headerLine:
             headerLine = False
         else:
-            if continuing == True:
+            if continuing:
                 print(",")
             else:
                 continuing = True
