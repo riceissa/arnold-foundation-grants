@@ -17,13 +17,19 @@ DONEE_RENAME = {
     "Research Triangle Institute" : "RTI International",
     'Rutgers University Foundation': 'Rutgers University',
     "Seattle Children's Hospital Foundation": "Seattle Children's Hospital",
+    'The Regents of the University of California, Berkeley': 'University of California, Berkeley',
+    'The Regents of the University of California, Irvine': 'University of California, Irvine',
+    'The Regents of the University of California, Los Angeles': 'University of California, Los Angeles',
+    'The Regents of the University of California, San Diego': 'University of California, San Diego',
+    'The Regents of the University of California, San Francisco': 'University of California, San Francisco',
+    'The Regents of the University of California, Santa Barbara': 'University of California, Santa Barbara',
+    'The Regents of the University of Michigan': 'University of Michigan',
     'University of Arizona Foundation': 'University of Arizona',
     'University of Colorado': 'University of Colorado Foundation',
     'University of Maryland Baltimore Foundation': 'University of Maryland, Baltimore',
     'University of Washington Foundation': 'University of Washington',
     'Ursuline Academy of Dallas Foundation': 'Ursuline Academy of Dallas',
     'Washington State University Foundation': 'Washington State University',
-
 }
 
 
