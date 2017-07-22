@@ -7,7 +7,23 @@ import re
 
 
 DONEE_RENAME = {
-    "Research Triangle Institute": "RTI International"
+    'Foundation for the National Institute of Health': 'Foundation for the National Institutes of Health',
+    'George Mason University Foundation': 'George Mason University',
+    'Houston Independent School District Foundation': 'Houston Independent School District',
+    'ID Insight': 'IDinsight',
+    'Ohio State University Foundation': 'Ohio State University',
+    'Oklahoma State University': 'Oklahoma State University Foundation',
+    'Oxfam-America': 'Oxfam America',
+    "Research Triangle Institute" : "RTI International",
+    'Rutgers University Foundation': 'Rutgers University',
+    "Seattle Children's Hospital Foundation": "Seattle Children's Hospital",
+    'University of Arizona Foundation': 'University of Arizona',
+    'University of Colorado': 'University of Colorado Foundation',
+    'University of Maryland Baltimore Foundation': 'University of Maryland, Baltimore',
+    'University of Washington Foundation': 'University of Washington',
+    'Ursuline Academy of Dallas Foundation': 'Ursuline Academy of Dallas',
+    'Washington State University Foundation': 'Washington State University',
+
 }
 
 
