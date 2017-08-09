@@ -143,7 +143,7 @@ with open("grants-with-multiyear.tsv", "r") as f:
             amount=amount,
             donation_date=year,
             donation_date_precision=donation_date_precision,
-            cause_area=standardize_cause_area_url(area),
+            cause_area=standardize_cause_area(area),
             donor_cause_area_url=donor_cause_area_url(area),
             notes=notes,
             affected_states=assign_state(recipient)
