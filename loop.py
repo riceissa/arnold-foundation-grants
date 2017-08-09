@@ -124,7 +124,7 @@ print("""insert into donations (donor, donee, amount, donation_date,
 def standardize_cause_area(area):
     if area == "Criminal Justice":
         return "Criminal justice reform"
-    else if area == "Research Integrity":
+    if area == "Research Integrity":
         return "Scientific research/research integrity"
     else:
         return area
