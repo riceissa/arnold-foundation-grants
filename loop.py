@@ -49,10 +49,17 @@ def donor_cause_area_url(area):
         return "'http://www.arnoldfoundation.org/initiative/sustainable-public-finance/'"
     else:
         return "NULL"
-
 print("""insert into donations (donor, donee, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
     donor_cause_area_url, notes, affected_countries, affected_states) values""")
+
+def standardize_cause_area(area):
+    if area == "Criminal Justice":
+        return "Criminal justice reform"
+    else if area == "Research Integrity":
+        return "Scientific research/research integrity"
+    else:
+        return area
 
 with open("grants-with-multiyear.tsv", "r") as f:
     headerLine = True
@@ -73,7 +80,7 @@ with open("grants-with-multiyear.tsv", "r") as f:
                 amount=amount,
                 donation_date=year,
                 donation_date_precision=donation_date_precision,
-                cause_area=area,
+                cause_area=standardize_cause_area(area),
                 donor_cause_area_url=donor_cause_area_url(area),
                 notes=notes,
                 affected_states=assign_state(recipient)
