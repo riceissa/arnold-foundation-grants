@@ -4,6 +4,7 @@
 # https://github.com/vipulnaik/donations/blob/master/sql/donations.sql
 
 import re
+import sys
 
 
 DONEE_RENAME = {
@@ -122,7 +123,7 @@ print("""insert into donations (donor, donee, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
     donor_cause_area_url, notes, affected_countries, affected_states) values""")
 
-with open("grants-with-multiyear.tsv", "r") as f:
+with open(sys.argv[1], "r") as f:
     next(f)  # skip header line of tsv
     continuing = False
     for line in f:

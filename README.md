@@ -2,8 +2,8 @@ Run the following commands to update grants.sql:
 
 ```bash
 curl http://www.arnoldfoundation.org/grants/ > index.html
-python3.5 fetch_page.py > grants-with-multiyear.tsv
-python3.5 loop.py > grants.sql
+python3.5 fetch_page.py index.html > grants-with-multiyear.tsv
+python3.5 loop.py grants-with-multiyear.tsv > grants.sql
 ```
 
 The following commands are to insert into [donations list website](https://github.com/vipulnaik/donations) and git repository:

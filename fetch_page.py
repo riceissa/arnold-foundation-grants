@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 
+import sys
 from bs4 import BeautifulSoup
 import operator
 
 TRACK_MULTIYEAR = True
 
 def main():
-    with open("index.html", "r") as f:
+    with open(sys.argv[1], "r") as f:
         soup = BeautifulSoup(f, "html.parser")
     grants = []
     # Collect the grant areas to match up with the tables
