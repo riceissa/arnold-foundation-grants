@@ -111,7 +111,6 @@ def donor_cause_area_url(area):
     else:
         return "NULL"
 
-
 def donee_clean(donee):
     donee = re.sub(r",? inc\.?$", "", donee, flags=re.IGNORECASE)
     if donee in DONEE_RENAME:
@@ -122,6 +121,16 @@ def donee_clean(donee):
 print("""insert into donations (donor, donee, amount, donation_date,
     donation_date_precision, donation_date_basis, cause_area, url,
     donor_cause_area_url, notes, affected_countries, affected_states) values""")
+
+
+def standardize_cause_area(area):
+    if area == "Criminal Justice":
+        return "Criminal justice reform"
+    if area == "Research Integrity":
+        return "Scientific research/research integrity"
+    else:
+        return area
+
 
 with open(sys.argv[1], "r") as f:
     next(f)  # skip header line of tsv
@@ -137,7 +146,7 @@ with open(sys.argv[1], "r") as f:
             amount=amount,
             donation_date=year,
             donation_date_precision=donation_date_precision,
-            cause_area=area,
+            cause_area=standardize_cause_area(area),
             donor_cause_area_url=donor_cause_area_url(area),
             notes=notes,
             affected_states=assign_state(recipient)

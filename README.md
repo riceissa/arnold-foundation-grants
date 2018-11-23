@@ -10,7 +10,7 @@ The following commands are to insert into [donations list website](https://githu
 
 ```bash
 mysql donations -p < grants.sql # Enter password on being prompted
-cp grants.sql ../donations/sql/donations/arnold-foundation-grants.sql
+cp grants.sql ../donations/sql/donations/private-foundations/arnold-foundation-grants.sql
 cd ../donations
 # Then git diff, commit, push, etc.
 ```
