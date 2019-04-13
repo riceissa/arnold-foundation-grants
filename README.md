@@ -1,3 +1,19 @@
+## New instructions
+
+Get new grants data:
+
+```bash
+./scrape.py > grants-YYYY-MM-DD.csv
+```
+
+Use CSV file to generate SQL (the older `grants-with-multiyear.tsv` file is required for figuring out the cause areas of grants):
+
+```bash
+./proc.py grants-YYYY-MM-DD.csv grants-with-multiyear.tsv > out.sql
+```
+
+## Old instructions
+
 Run the following commands to update out.sql:
 
 ```bash
