@@ -10,7 +10,7 @@ import re
 # names across different Arnold data sets when we backfill the cause areas.
 # It's not meant to be used as a normalization function for DLW's data.
 def normalized_donee(donee):
-    return donee.replace("–", "-").replace("men?s", "men's").replace("’", "'")
+    return donee.replace("–", "-").replace("men?s", "men's").replace("’", "'").replace("Lawyers?", "Lawyers'")
 
 
 # Since the new Arnold grants data does not have cause area info, use the older
@@ -54,6 +54,7 @@ def get_area(donee, term, amount):
         # subtract the two amounts and consider them equal if they're within $2
         if (normalized_donee(donee) == grant['recipient'] and
                 term == grant['term'] and abs(amount - grant['amount']) <= 2):
+            # GRANTS.remove(grant)
             return grant['area']
 
     # If we make it to here, there was no exact match for the grant, so fall
@@ -65,8 +66,6 @@ def get_area(donee, term, amount):
 
 
 def main():
-    grant_match_count = 0
-
     with open(sys.argv[1], newline="") as csvfile:
         reader = csv.DictReader(csvfile)
         print("""insert into donations (donor, donee, amount, donation_date, donation_date_precision, donation_date_basis, cause_area, url, notes) values""")
@@ -88,8 +87,6 @@ def main():
 
             area = get_area(row["recipient"], row["term"], amount)
 
-            # del GRANT_TO_AREA[(normalized_donee(row["recipient"]), int(year), int(amount))]
-
             print(("    " if first else "    ,") + "(" + ",".join([
                 mysql_quote("Arnold Ventures"),  # donor
                 mysql_quote(row["recipient"]),  # donee
@@ -103,8 +100,7 @@ def main():
             ]) + ")")
             first = False
         print(";")
-        # print(grant_match_count, file=sys.stderr)
-        # for t in GRANT_TO_AREA:
+        # for t in GRANTS:
         #     print(t, file=sys.stderr)
 
 
