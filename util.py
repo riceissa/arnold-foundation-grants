@@ -17,6 +17,8 @@ def wikilink(title):
 
 DONEE_RENAME = {
     'Board of Trustees of the University of Illinois': 'University of Illinois',
+    'Charter Fund, Inc.**': 'Charter Fund',
+    'Civica, Inc.**': 'Civica',
     'Farm Foundation NFP': 'Farm Foundation',
     'Foundation for the National Institute of Health': 'Foundation for the National Institutes of Health',
     'Foundation of the University of Medicine and Dentistry of New Jersey': 'University of Medicine and Dentistry of New Jersey',
