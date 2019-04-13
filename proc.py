@@ -4,7 +4,69 @@ import sys
 import csv
 import re
 
+
+# This is just a quick way to normalize some common discrepancies in naming
+# donees *within Arnold Foundation's data*. It's used for matching the donee
+# names across different Arnold data sets when we backfill the cause areas.
+# It's not meant to be used as a normalization function for DLW's data.
+def normalized_donee(donee):
+    return donee.replace("–", "-").replace("men?s", "men's").replace("’", "'")
+
+
+# Since the new Arnold grants data does not have cause area info, use the older
+# data to figure out the cause area, in cases where we can do this.
+GRANTS = []  # List of all grants from the older data
+DONEE_TO_AREA = {}  # Track the *most recent* area for each donee
+most_recent_year_for_donee = {}  # Track the most recent year seen for each
+                                 # donee; this helps us construct DONEE_TO_AREA
+with open(sys.argv[2], "r") as f:
+    next(f)  # skip header line of tsv
+    for line in f:
+        area, recipient, year, amount, donation_date_precision, notes = line.strip().split("\t")
+        recipient = normalized_donee(recipient)
+        assert notes.startswith('Grant period: ')
+        term = notes[len('Grant period: '):]
+        GRANTS.append({
+            'recipient': recipient,
+            'term': term,
+            'amount': float(amount),
+            'area': area
+        })
+
+        if recipient in DONEE_TO_AREA:
+            # If we have already seen this donee, only over-write the area if
+            # we have a more recent year
+            if int(year) > most_recent_year_for_donee[recipient]:
+                DONEE_TO_AREA[recipient] = area
+                most_recent_year_for_donee[recipient] = int(year)
+        else:
+            DONEE_TO_AREA[recipient] = area
+            most_recent_year_for_donee[recipient] = int(year)
+
+
+def get_area(donee, term, amount):
+    """Find the area for a given (donee, term, amount) combination, by first
+    looking for an exact match (with amount up to a $2 difference) and then
+    looking for a donee/recipient match (using the area of the most recent
+    grant as the area)."""
+    for grant in GRANTS:
+        # For amount, there are some rounding errors on Arnold's part, so
+        # subtract the two amounts and consider them equal if they're within $2
+        if (normalized_donee(donee) == grant['recipient'] and
+                term == grant['term'] and abs(amount - grant['amount']) <= 2):
+            return grant['area']
+
+    # If we make it to here, there was no exact match for the grant, so fall
+    # back on using just the latest area of the recipient
+    if normalized_donee(donee) in DONEE_TO_AREA:
+        return DONEE_TO_AREA[normalized_donee(donee)]
+
+    return None
+
+
 def main():
+    grant_match_count = 0
+
     with open(sys.argv[1], newline="") as csvfile:
         reader = csv.DictReader(csvfile)
         print("""insert into donations (donor, donee, amount, donation_date, donation_date_precision, donation_date_basis, cause_area, url, notes) values""")
@@ -21,7 +83,12 @@ def main():
                 amount = float(amount_list[2].replace("$", "").replace(",", ""))
 
             match = re.match(r"(\d\d\d\d)( - \d\d\d\d)?$", row["term"])
-            donation_date = match.group(1) + "-01-01"
+            year = match.group(1)
+            donation_date = year + "-01-01"
+
+            area = get_area(row["recipient"], row["term"], amount)
+
+            # del GRANT_TO_AREA[(normalized_donee(row["recipient"]), int(year), int(amount))]
 
             print(("    " if first else "    ,") + "(" + ",".join([
                 mysql_quote("Arnold Ventures"),  # donor
@@ -30,12 +97,15 @@ def main():
                 mysql_quote(donation_date),  # donation_date
                 mysql_quote("year"),  # donation_date_precision
                 mysql_quote("donation log"),  # donation_date_basis
-                mysql_quote(""),  # cause_area
+                mysql_quote(area),  # cause_area
                 mysql_quote("https://www.arnoldventures.org/grants/"),  # url
                 mysql_quote(row["purpose"]),  # notes
             ]) + ")")
             first = False
         print(";")
+        # print(grant_match_count, file=sys.stderr)
+        # for t in GRANT_TO_AREA:
+        #     print(t, file=sys.stderr)
 
 
 def mysql_quote(x):
