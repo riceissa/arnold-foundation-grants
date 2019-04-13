@@ -4,6 +4,7 @@ import sys
 import csv
 import re
 
+import util
 
 # This is just a quick way to normalize some common discrepancies in naming
 # donees *within Arnold Foundation's data*. It's used for matching the donee
@@ -68,7 +69,7 @@ def get_area(donee, term, amount):
 def main():
     with open(sys.argv[1], newline="") as csvfile:
         reader = csv.DictReader(csvfile)
-        print("""insert into donations (donor, donee, amount, donation_date, donation_date_precision, donation_date_basis, cause_area, url, notes) values""")
+        print("""insert into donations (donor, donee, amount, donation_date, donation_date_precision, donation_date_basis, cause_area, donor_cause_area_url, url, notes, affected_states) values""")
         first = True
 
         for row in reader:
@@ -89,14 +90,16 @@ def main():
 
             print(("    " if first else "    ,") + "(" + ",".join([
                 mysql_quote("Arnold Ventures"),  # donor
-                mysql_quote(row["recipient"]),  # donee
+                mysql_quote(util.donee_clean(row["recipient"])),  # donee
                 str(amount),  # amount
                 mysql_quote(donation_date),  # donation_date
                 mysql_quote("year"),  # donation_date_precision
                 mysql_quote("donation log"),  # donation_date_basis
-                mysql_quote(area),  # cause_area
+                mysql_quote(util.standardize_cause_area(area)),  # cause_area
+                util.donor_cause_area_url(area),  # donor_cause_area_url
                 mysql_quote("https://www.arnoldventures.org/grants/"),  # url
                 mysql_quote(row["purpose"]),  # notes
+                util.assign_state(row["recipient"]),  # affected_states
             ]) + ")")
             first = False
         print(";")
